@@ -1,0 +1,13 @@
+{
+  "name": "gemini-vision",
+  "version": "1.0.0",
+  "description": "Essa api permite que o usuário faça upload de uma imagem e obtenha uma descrição da imagem.",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Felipe",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.17.1",
+    "dotenv": "^16.4.5"
+  }
+}
