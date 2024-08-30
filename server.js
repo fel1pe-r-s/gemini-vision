@@ -15,7 +15,7 @@ async function filesCreateImage(pathImage) {
   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const result = await model.generateContent([
-    "What is written in this image.",
+    "Extract the current meter reading and label it as measure_consumption.",
     {
       fileData: {
         fileUri: uploadResult.file.uri,
@@ -25,10 +25,25 @@ async function filesCreateImage(pathImage) {
   ]);
 
   // View the response.
-  console.log(result.response.text());
+  return result.response.text();
   // [END files_create_image]
 }
 
-const pathImage = "jetpack.png";
+const pathImage = "image.png";
 
-filesCreateImage(pathImage);
+function convertJson(stringComFormatacao) {
+  const jsonStringLimpa = stringComFormatacao
+    .replace(/```json|```|`/g, "")
+    .trim();
+  const jsonObject = JSON.parse(jsonStringLimpa);
+
+  return jsonObject;
+}
+
+async function main() {
+  const jsonString = await filesCreateImage(pathImage);
+
+  const jsonObject = convertJson(jsonString);
+  console.log(jsonObject.measure_consumption);
+}
+main();
